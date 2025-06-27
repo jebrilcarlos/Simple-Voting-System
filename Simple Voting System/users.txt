@@ -1,0 +1,4 @@
+12345678|Jomarie|Batumbakal|18
+87654321|Batumbakal|Jomarie|81
+12345678|John|Wayne|21
+
