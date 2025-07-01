@@ -8,6 +8,7 @@ It currently includes user registration and login functionality, with plans to e
 ## 📌 Features (so far)
 - User registration (ID, name, age)
 - Age validation (must be 18+ to register)
+- Duplicate ID validation
 - Login using ID
 - User data stored and loaded from a file
 
@@ -29,7 +30,6 @@ It currently includes user registration and login functionality, with plans to e
 - Voting menu after login
 - Candidate list and vote casting
 - Vote tallying and result display
-- Duplicate ID prevention
 - Basic login security (optional)
 
 ## 👤 Author
