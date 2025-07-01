@@ -44,4 +44,8 @@ public class UserTemplate {
         return voteStatus;
     }
 
+    @Override //to make life easier when saving
+    public String toString() {
+        return id + "|" + firstName + "|" + middleName + "|" + lastName + "|" + age + "|" + voteStatus;
+    }
 }

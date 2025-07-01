@@ -3,31 +3,22 @@ import java.util.Scanner;
 
 //this handles user signup and login
 public class UserHandling {
-    private final ArrayList<UserTemplate> users = new ArrayList<UserTemplate>();
+    private UserTemplate user = null;
+    private final Utilities util = new Utilities();
     private final FileHandling fh = new FileHandling();
     private final Scanner sc = new Scanner(System.in);
 
-    //counts array list size
-    private int userCount () { return users.size(); }
-
     //handles user input, calls upon other methods, returns bool to evaluate menu loop
     public boolean fillUp (int choice) {
-        if (fh.createFile() != 1) {
-            System.out.println("Can't create file.");
-            return false;
-        }
-
+        //checks if file is created successfully (see line 12 in FileHandling)
+        if (fh.createFile() != 1) { System.out.println("Can't create file."); return false;}
         String id = enterID(choice);
-        if (choice == 1) {
-            int before = userCount(), after = enterOtherInfo(id);
-            if (before < after) { signUp(); }
-            return false;
-        }
-        if (choice == 2) {
-            logIn(id);
-            return true;
-        }
 
+        //evaluates choice in menu (see line 28 in menu)
+        if (choice == 1) { if (enterOtherInfo(id)) { signUp(); } return false; }
+        if (choice == 2) { while (!logIn(id)) { id = enterID(choice); } return true; }
+
+        //return false if not logged in for menu loop (see line 12 in menu)
         return false;
     }
 
@@ -36,22 +27,22 @@ public class UserHandling {
         String id;
         do {
             System.out.print("Please enter your ID (8 characters): "); id = sc.nextLine();
+            //length of id should be 8, if not then repeat
             if (id.length() != 8) { System.out.println("ID must be 8 characters."); continue; }
 
+            //checks if id already exits in record (see line 36 in File Handling)
             if (choice == 1) {
                 boolean dupe = fh.reviewDupID(id);
-                if (dupe) {
-                    System.out.println("User with that ID already exists.");
-                    continue;
-                }
+                if (dupe) { System.out.println("User with that ID already exists."); continue; }
             }
             break;
         } while (true);
+        //returns id (see line 14)
         return id;
     }
 
     //input other user info, returns the user count to be evaluated
-    private int enterOtherInfo (String id) {
+    private boolean enterOtherInfo (String id) {
         String fname, mname, lname; int age, voteStatus;
         do {
             System.out.print("Please input your age: ");
@@ -68,22 +59,30 @@ public class UserHandling {
             break;
         } while (true);
 
-        users.add(new UserTemplate(id, fname, mname, lname, age, voteStatus));
-        return userCount();
+        user = new UserTemplate(id, fname, mname, lname, age, voteStatus);
+        //returns true for evaluation (line 15)
+        return true;
     }
 
     //method to call file handling (write to file)
     private void signUp () {
-        int result = fh.saveToFile(users);
+        //evaluates if record is saved in file (see line 24 in File Handling)
+        int result = fh.saveToFile(user);
         if (result < 0) { System.out.println("There was a problem while trying to save."); return; }
-        System.out.println("User recorded successfully.\n");
+        System.out.println("User recorded successfully.\n"); util.pressEnterToContinue();
     }
 
     //method to call file handling (read from file)
-    private void logIn (String id) {
-        UserTemplate uf = fh.loadUser(id);
-        if (uf == null) { System.out.println("User with that ID not found."); return; }
-        users.add(uf);
-        HomePage hp = new HomePage(); hp.home(uf);
+    private boolean logIn (String id) {
+        //assigns and evaluates if user exists (see line 56 in File Handling)
+        user = fh.loadUser(id);
+        if (user == null) {
+            System.out.println("User with that ID not found.");
+            util.pressEnterToContinue(); return false; }
+        //calls upon homepage and passes the user
+        HomePage hp = new HomePage(); hp.home(user);
+
+        //returns true if login is successful (see line 18)
+        return true;
     }
 }

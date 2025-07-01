@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 //upon launch, user will be redirected here
 public class Menu {
+    private final Utilities util = new Utilities();
     private final UserHandling uh = new UserHandling();
     private final Scanner sc = new Scanner(System.in);
 
@@ -25,7 +26,7 @@ public class Menu {
 
             switch (choice) {
                 case 1: toFillUp(choice); break;
-                case 2: if (toFillUp(choice)) { return; } break;
+                case 2: if (toFillUp(choice)) { return; } break; //ends the menu loop if login successful (see line 18 in User Handling)
                 case 3: aboutInfo(); break;
                 case 0: System.out.println("Until next time!"); return;
             }
@@ -40,8 +41,9 @@ public class Menu {
                             + "\t- User Login through ID / Name\n"
                             + "\t- Records are saved through file system\n"
                             + "\t- Simple and easy to navigate\n");
+        util.pressEnterToContinue();
     }
 
-    //method to call user handling class
+    //method to call user handling class (see line 11 in User Handling)
     private boolean toFillUp (int choice) { return uh.fillUp(choice); }
 }

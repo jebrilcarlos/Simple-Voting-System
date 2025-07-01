@@ -1,3 +1,5 @@
+
+//template for the candidates (presidents, vice presidents, senators, etc.)
 public class CandidateTemplate {
     private int ballot, votes;
     private String firstName, middleName, lastName;
