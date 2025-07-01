@@ -1,38 +1,38 @@
 import java.util.Scanner;
 
+//upon launch, user will be redirected here
 public class Menu {
     private final UserHandling uh = new UserHandling();
     private final Scanner sc = new Scanner(System.in);
 
+    //main menu
     public void mainMenu () {
         int choice = 0;
-        System.out.println("---------- Jebril's Voting System ----------\n");
-        System.out.println("Welcome, user!\n"
-                            + "\t1 = Sign up\n"
-                            + "\t2 = Login\n"
-                            + "\t3 = About\n"
-                            + "\t0 = Exit\n");
 
         do {
+            System.out.println("---------- Jebril's Voting System ----------\n");
+            System.out.println("Welcome, user!\n"
+                    + "\t1 = Sign up\n"
+                    + "\t2 = Login\n"
+                    + "\t3 = About\n"
+                    + "\t0 = Exit\n");
+
             System.out.print("\n-> Enter Choice: ");
-            try {
+            try { //parsing integer throws NumberFormatException hence try catch block use
                 choice = Integer.parseInt(sc.nextLine());
                 if (choice > 3 || choice < 0) { System.out.println("Not a valid choice."); continue; }
             } catch (NumberFormatException err) { System.out.println(err); continue; }
 
-            break;
+            switch (choice) {
+                case 1: toFillUp(choice); break;
+                case 2: if (toFillUp(choice)) { return; } break;
+                case 3: aboutInfo(); break;
+                case 0: System.out.println("Until next time!"); return;
+            }
         } while (true);
-
-        switch (choice) {
-            case 1:
-            case 2: toFillUp(choice); break;
-            case 3: aboutInfo(); break;
-            case 0: System.out.println("Until next time!"); break;
-            default: System.out.println("This is not a valid choice."); break;
-        }
-
     }
 
+    //about section
     private void aboutInfo () {
         System.out.println("Voting System by Jebril Carlos\n");
         System.out.println("This system has the following features:\n"
@@ -42,5 +42,6 @@ public class Menu {
                             + "\t- Simple and easy to navigate\n");
     }
 
-    private void toFillUp (int choice) { uh.fillUp(choice); }
+    //method to call user handling class
+    private boolean toFillUp (int choice) { return uh.fillUp(choice); }
 }

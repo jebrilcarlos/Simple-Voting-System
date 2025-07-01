@@ -1,8 +1,6 @@
-import java.io.File;
-
-//this is where it all starts
+//main class
 public class Main {
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         Menu menu = new Menu();
         menu.mainMenu();
     }
